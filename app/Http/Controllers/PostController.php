@@ -3,10 +3,14 @@
 namespace App\Http\Controllers;
 
 use Illuminate\Http\Request;
+use Illuminate\Foundation\Validation\ValidatesRequests;
+use Illuminate\Support\Facades\Validator;
 use App\Post;
 
 class PostController extends Controller
 {
+    use Validater;
+
     /**
      * Display a listing of the resource.
      *
@@ -24,24 +28,33 @@ class PostController extends Controller
      */
     public function create()
     {
-        //
+        return view('posts.create');
     }
 
+
     /**
-     * Store a newly created resource in storage.
-     *
-     * @param  \Illuminate\Http\Request  $request
-     * @return \Illuminate\Http\Response
+     * @param Request $request
+     * @return \Illuminate\Http\RedirectResponse|\Illuminate\Routing\Redirector
+     * @throws \Illuminate\Validation\ValidationException
      */
     public function store(Request $request)
     {
-        $request->validate([
+        $this->validate($request, [
             'title'=>'required',
-            'author'=>'required',
             'category'=>'required',
-            'short_description'=>'required',
             'long_description'=>'required'
         ]);
+
+        $post = new Post([
+            'title' => $request->get('title'),
+            'author' => $request->get('author'),
+            'category' => $request->get('category'),
+            'short_description' => $request->get('short_description'),
+            'long_description' => $request->get('long_description')
+        ]);
+
+        $post->save();
+        return redirect('/posts')->with('success', 'Post Saved.');
     }
 
     /**
