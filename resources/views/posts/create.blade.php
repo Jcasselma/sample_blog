@@ -3,7 +3,7 @@
 @section('main')
     <div class="row">
         <div class="col-sm-8 offset-sm-2">
-            <h1 class="display-3">Add a contact</h1>
+            <h1 class="display-3">Add a post</h1>
             <div>
                 @if ($errors->any())
                     <div class="alert alert-danger">
@@ -14,35 +14,33 @@
                         </ul>
                     </div><br />
                 @endif
-                <form method="post" action="{{ route('contacts.store') }}">
+                <form method="post" action="{{ route('posts.store') }}">
                     @csrf
                     <div class="form-group">
-                        <label for="first_name">First Name:</label>
-                        <input type="text" class="form-control" name="first_name"/>
+                        <label for="title">Title:</label>
+                        <input type="text" class="form-control" name="title"/>
                     </div>
 
                     <div class="form-group">
-                        <label for="last_name">Last Name:</label>
-                        <input type="text" class="form-control" name="last_name"/>
+                        <label for="author">Author:</label>
+                        <input type="text" class="form-control" name="author"/>
                     </div>
 
                     <div class="form-group">
-                        <label for="email">Email:</label>
-                        <input type="text" class="form-control" name="email"/>
+                        <label for="email">Category:</label>
+                        <input type="text" class="form-control" name="category"/>
                     </div>
                     <div class="form-group">
-                        <label for="city">City:</label>
-                        <input type="text" class="form-control" name="city"/>
+                        <label for="short_description">Short Description</label>
+                        <textarea id="shortdesc" class="form-control" name="short_description">This is a short description</textarea>
                     </div>
+
                     <div class="form-group">
-                        <label for="country">Country:</label>
-                        <input type="text" class="form-control" name="country"/>
+                        <label for="long_description">Long Description</label>
+                        <textarea id="longdesc" class="form-control" name="long_description">This is a long description</textarea>
                     </div>
-                    <div class="form-group">
-                        <label for="job_title">Job Title:</label>
-                        <input type="text" class="form-control" name="job_title"/>
-                    </div>
-                    <button type="submit" class="btn btn-primary-outline">Add contact</button>
+
+                    <button type="submit" class="btn btn-primary-outline">Create Post</button>
                 </form>
             </div>
         </div>
