@@ -23,4 +23,4 @@ Route::get('/admin', 'AdminController@admin')
     ->middleware('is_admin')
     ->name('admin');
 
-Route::resource('posts', 'PostController');
+Route::resource('/posts', 'PostController');
