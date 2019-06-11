@@ -25,7 +25,7 @@
                         <td>{{$post->id}}</td>
                         <td>{{$post->title}}
                         <td>{{$post->author}}</td>
-                        <td>{{$post->category}}</td>
+                        <td>{{$post->category}}</td>9
                         <td>{{$post->short_description}}</td>
                         <td>{{$post->long_description}}</td>
                         <td>

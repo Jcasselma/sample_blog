@@ -24,3 +24,6 @@ Route::get('/admin', 'AdminController@admin')
     ->name('admin');
 
 Route::resource('/posts', 'PostController');
+
+Route::resource('/categories', 'CategoryController');
+

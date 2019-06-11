@@ -2,6 +2,7 @@
 
 namespace App\Http\Controllers;
 
+use App\Category;
 use Illuminate\Http\Request;
 
 class CategoryController extends Controller
@@ -26,15 +27,36 @@ class CategoryController extends Controller
         return view('categories.create');
     }
 
-    /**
-     * Store a newly created resource in storage.
-     *
-     * @param  \Illuminate\Http\Request  $request
-     * @return \Illuminate\Http\Response
-     */
+// YOU STOPPED HERE
+//YOU WERE TRYING TO APPEND A NODE TO A PARENT NODE
+
     public function store(Request $request)
     {
-        //
+        $this->validate($request, [
+            'category_name'=>'required',
+            'parent_id' => 'required'
+        ]);
+
+        //insert validate call
+
+        $node = new Category([
+            'category_name' => $request->post('category_name')
+        ]);
+        $node->save();
+
+        $parentId= $request->get('parent_id');
+
+        // if parent_id == 0 set as parent
+        if ($parentId == 0) {
+            $node->saveAsRoot();
+        }
+        else {
+            $parent_node->append($node);
+        }
+        // else set parent to id
+
+
+        return redirect('/categories')->with('success', 'Categories Saved.');
     }
 
     /**
