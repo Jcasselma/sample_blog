@@ -2,8 +2,8 @@
 
 @section('main')
     <div class="row">
-        <div class="col-sm-12">
-            <h1 class="display-3">Blog Posts</h1>
+        <h1 class="display-3">Blog Posts</h1>
+        <div class="col-sm-10">
             <table class="table table-striped">
                 <thead>
                 <tr>
@@ -16,14 +16,33 @@
                     <td colspan = 2>Actions</td>
                 </tr>
                 </thead>
-                <div>
-                    <a style="margin: 19px;" href="{{ route('posts.create')}}" class="btn btn-primary">New post</a>
+                <div class="row">
+                    <div class="col-md-6">
+                        <a href="{{ route('posts.create')}}" class="btn btn-primary">New post</a>
+                    </div>
+                    <div class="col-md-2">
+                    </div>
+                    <form method="get" action="{{ route('posts.index') }}">
+                    <div class= "col-md-3">
+                        <select class="browser-default custom-select" id ="category_id" name ="category_id">
+                            <option id ="0"  value="">All Categories</option>
+
+                            @foreach($categories as $id => $category_name)
+                                <option id ="{{ $id }}" {{ $categoryId == $id ? 'selected' : '' }} value="{{ $id }}">{{ $category_name }}</option>
+                            @endforeach
+
+                        </select>
+                    </div>
+                    <div class="col-md-1">
+                        <button type="submit" class="btn btn-primary">Filter</button>
+                    </div>
+                    </form>
                 </div>
                 <tbody>
                 @foreach($posts as $post)
                     <tr>
                         <td>{{$post->id}}</td>
-                        <td>{{$post->title}}
+                        <td>{{$post->title}}</td>
                         <td>{{$post->user_id}}</td>
                         <td>{{$post->category_id}}</td>
                         <td>{{$post->short_description}}</td>
@@ -53,6 +72,12 @@
                     </div>
                 @endif
             </div>
+        </div>
+        <div class="col-sm-2">
+            <h1>Categories</h1>
+            @foreach($categories as $id => $category_name)
+                <a href="{{ route('posts.index')}}?category_id={{ $id }}" >{{ $category_name }}</a> <br />
+            @endforeach
         </div>
     </div>
 @endsection

@@ -17,11 +17,21 @@ class PostController extends Controller
      *
      * @return \Illuminate\Http\Response
      */
-    public function index()
+    public function index(Request $request)
     {
-        $posts = POST::all();
 
-        return view('posts.index', compact('posts'));
+        if(!empty($request->get('category_id'))) {
+            $categoryId = $request->get('category_id');
+            $posts = Post::where('category_id', $categoryId)->get();
+
+        } else {
+            $categoryId = 0;
+            $posts = Post::all();
+        }
+
+        $categories = Category::pluck('category_name', 'id');
+
+        return view('posts.index', compact('posts', 'categories', 'categoryId'));
     }
 
     /**
