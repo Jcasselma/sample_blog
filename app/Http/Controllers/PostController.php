@@ -2,8 +2,11 @@
 
 namespace App\Http\Controllers;
 
+use App\Category;
+use App\User;
 use Illuminate\Http\Request;
 use Illuminate\Foundation\Validation\ValidatesRequests;
+use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\Validator;
 use App\Post;
 
@@ -28,7 +31,10 @@ class PostController extends Controller
      */
     public function create()
     {
-        return view('posts.create');
+        $categories = Category::pluck('category_name', 'id');
+        $authorName = Auth::user()->name;
+
+        return view('posts.create', compact('categories', 'authorName'));
     }
 
 
@@ -41,14 +47,14 @@ class PostController extends Controller
     {
         $this->validate($request, [
             'title'=>'required',
-            'category'=>'required',
+            'category_id'=>'required',
             'long_description'=>'required'
         ]);
 
         $post = new Post([
             'title' => $request->get('title'),
-            'author' => $request->get('author'),
-            'category' => $request->get('category'),
+            'user_id' => Auth::id(),
+            'category_id' => $request->get('category_id'),
             'short_description' => $request->get('short_description'),
             'long_description' => $request->get('long_description')
         ]);
@@ -90,14 +96,14 @@ class PostController extends Controller
     {
         $this->validate($request, [
             'title'=>'required',
-            'category'=>'required',
+            'category_id'=>'required',
             'long_description'=>'required'
         ]);
 
         $post = Post::query()->find($id);
         $post->title =  $request->get('title');
-        $post->author = $request->get('author');
-        $post->category = $request->get('category');
+        $post->user_id = $request->get('user_id');
+        $post->category_id = $request->get('category_id');
         $post->short_description = $request->get('short_description');
         $post->long_description = $request->get('long_description');
         $post->save();

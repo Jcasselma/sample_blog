@@ -108,13 +108,12 @@ class CategoryController extends Controller
         $category = Category::find($id);
         $category->category_name =  $request->get('category_name');
 
-        $newParentId = $request->get('parent_id');
-        dd($newParentId);
+        // Code for changing parent node
+//        $newParentId = $request->get('parent_id');
+//        dd($newParentId);
+//        $parentNode = Category::find($newParentId);
+//        $parentNode->appendNode($category);
 
-
-        $parentNode = Category::find($newParentId);
-
-        $parentNode->appendNode($category);
         $category->save();
 
         return redirect('/categories')->with('success', 'Category updated.');

@@ -25,12 +25,12 @@
 
                 <div class="form-group">
                     <label for="author">Author:</label>
-                    <input type="text" class="form-control" name="author" value={{ $post->author }} />
+                    <input type="text" class="form-control" name="author" value={{ $post->user_id }} />
                 </div>
 
                 <div class="form-group">
                     <label for="category">Category:</label>
-                    <input type="text" class="form-control" name="category" value={{ $post->category }} />
+                    <input type="text" class="form-control" name="category" value={{ $post->category_id }} />
                 </div>
                 <div class="form-group">
                     <label for="short_description">Short Description:</label>

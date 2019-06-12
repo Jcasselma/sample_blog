@@ -21,12 +21,13 @@
                     <label for="category_name">Category Name:</label>
                     <input type="text" class="form-control" name="category_name" value="{{ $category->category_name }}" />
 
-                    <select class="form-control" id ="parent_id" name ="parent_id">
-                        @foreach($categories as $id => $categoryName)
-                            {{--NEED TO PASS PARENT ID NOT NAME--}}
-                            <option id ="{{ $id }}" {{ $category->parent_id == $id ? 'selected' : '' }} value="{{ $categoryName }}">{{ $categoryName }}</option>
-                        @endforeach
-                    </select>
+                    {{--THIS IS FOR CHANGING PARENT NODE--}}
+                    {{--<select class="form-control" id ="parent_id" name ="parent_id">--}}
+                        {{----}}
+                        {{--@foreach($categories as $id => $categoryName)--}}
+                            {{--<option id ="{{ $id }}" {{ $category->parent_id == $id ? 'selected' : '' }} value="{{ $categoryName }}">{{ $categoryName }}</option>--}}
+                        {{--@endforeach--}}
+                    {{--</select>--}}
                 </div>
 
                 <button type="submit" class="btn btn-primary">Update</button>

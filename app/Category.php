@@ -9,6 +9,9 @@ class Category extends Model
 {
     use NodeTrait;
 
-
     protected $guarded = [];
+
+    public function posts() {
+        return $this->hasMany(Post::class);
+    }
 }

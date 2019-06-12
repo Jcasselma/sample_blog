@@ -3,36 +3,30 @@
 @section('main')
     <div class="row">
         <div class="col-sm-12">
-            <h1 class="display-3">Blog Posts</h1>
+            <h1 class="display-3">Categories</h1>
             <table class="table table-striped">
                 <thead>
                 <tr>
-                    <td>Id</td>
-                    <td>Title</td>
-                    <td>Author</td>
-                    <td>Category</td>
-                    <td>Short Desc.</td>
-                    <td>Long Desc.</td>
-                    <td colspan = 2>Actions</td>
+                    <td>Category ID</td>
+                    <td>Category Name</td>
+                    <td>Parent ID</td>
+                    <td colspan="2">Actions</td>
                 </tr>
                 </thead>
                 <div>
-                    <a style="margin: 19px;" href="{{ route('posts.create')}}" class="btn btn-primary">New post</a>
+                    <a style="margin: 19px;" href="{{ route('categories.create')}}" class="btn btn-primary">New Category</a>
                 </div>
                 <tbody>
-                @foreach($posts as $post)
+                @foreach($categoriesIndex as $category)
                     <tr>
-                        <td>{{$post->id}}</td>
-                        <td>{{$post->title}}
-                        <td>{{$post->user_id}}</td>
-                        <td>{{$post->category_id}}</td>
-                        <td>{{$post->short_description}}</td>
-                        <td>{{$post->long_description}}</td>
+                        <td>{{$category->id}}</td>
+                        <td>{{$category->category_name}}</td>
+                        <td>{{$category->parent_id}}</td>
                         <td>
-                            <a href="{{ route('posts.edit',$post->id)}}" class="btn btn-primary">Edit</a>
+                            <a href="{{ route('categories.edit', $category->id)}}" class="btn btn-primary">Edit</a>
                         </td>
                         <td>
-                            <form action="{{ route('posts.destroy', $post->id)}}" method="post">
+                            <form action="{{ route('categories.destroy', $category->id)}}" method="post">
                                 @csrf
                                 @method('DELETE')
                                 <button class="btn btn-danger" type="submit">Delete</button>

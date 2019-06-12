@@ -22,13 +22,17 @@
                     </div>
 
                     <div class="form-group">
-                        <label for="author">Author:</label>
-                        <input type="text" class="form-control" name="author"/>
+                        <label for="user_id">Author:</label>
+                        <input type="text" class="form-control" placeholder=" {{ $authorName }}" name="user_id" readonly/>
                     </div>
 
                     <div class="form-group">
-                        <label for="email">Category:</label>
-                        <input type="text" class="form-control" name="category"/>
+                        <label for="category_id">Category:</label>
+                        <select class="browser-default custom-select" id ="category_id" name ="category_id">
+                            @foreach($categories as $id => $category_name)
+                                <option id ="{{ $id }}"  value="{{ $id }}">{{ $category_name }}</option>
+                            @endforeach
+                        </select>
                     </div>
                     <div class="form-group">
                         <label for="short_description">Short Description</label>
