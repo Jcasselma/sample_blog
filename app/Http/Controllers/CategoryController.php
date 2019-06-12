@@ -14,7 +14,9 @@ class CategoryController extends Controller
      */
     public function index()
     {
-        //
+        $categoriesIndex = Category::all();
+
+        return view('categories.index', compact('categoriesIndex'));
     }
 
     /**
@@ -24,12 +26,20 @@ class CategoryController extends Controller
      */
     public function create()
     {
-        return view('categories.create');
+        $categories = Category::pluck('category_name', 'id');
+//        dd($categories);
+
+        return view('categories.create', compact('categories'));
     }
 
 // YOU STOPPED HERE
 //YOU WERE TRYING TO APPEND A NODE TO A PARENT NODE
 
+    /**
+     * @param Request $request
+     * @return \Illuminate\Http\RedirectResponse|\Illuminate\Routing\Redirector
+     * @throws \Illuminate\Validation\ValidationException
+     */
     public function store(Request $request)
     {
         $this->validate($request, [
@@ -37,7 +47,7 @@ class CategoryController extends Controller
             'parent_id' => 'required'
         ]);
 
-        //insert validate call
+        //insert validate call + save node
 
         $node = new Category([
             'category_name' => $request->post('category_name')
@@ -46,15 +56,13 @@ class CategoryController extends Controller
 
         $parentId= $request->get('parent_id');
 
-        // if parent_id == 0 set as parent
         if ($parentId == 0) {
             $node->saveAsRoot();
         }
         else {
-            $parent_node->append($node);
+            $parentNode = Category::find($parentId);
+            $parentNode->appendNode($node);
         }
-        // else set parent to id
-
 
         return redirect('/categories')->with('success', 'Categories Saved.');
     }
@@ -78,19 +86,38 @@ class CategoryController extends Controller
      */
     public function edit($id)
     {
-        //
+        $category = Category::find($id);
+        $categories = Category::pluck('category_name', 'id');
+
+        return view('categories.edit', compact('category', 'categories'));
     }
 
+
     /**
-     * Update the specified resource in storage.
-     *
-     * @param  \Illuminate\Http\Request  $request
-     * @param  int  $id
-     * @return \Illuminate\Http\Response
+     * @param Request $request
+     * @param $id
+     * @return \Illuminate\Http\RedirectResponse|\Illuminate\Routing\Redirector
+     * @throws \Illuminate\Validation\ValidationException
      */
     public function update(Request $request, $id)
     {
-        //
+        $this->validate($request, [
+            'category_name'=>'required',
+        ]);
+
+        $category = Category::find($id);
+        $category->category_name =  $request->get('category_name');
+
+        $newParentId = $request->get('parent_id');
+        dd($newParentId);
+
+
+        $parentNode = Category::find($newParentId);
+
+        $parentNode->appendNode($category);
+        $category->save();
+
+        return redirect('/categories')->with('success', 'Category updated.');
     }
 
     /**
@@ -101,6 +128,9 @@ class CategoryController extends Controller
      */
     public function destroy($id)
     {
-        //
+        $node = Category::query()->find($id);
+        $node->delete();
+
+        return redirect('/categories')->with('success', 'Category deleted.');
     }
 }

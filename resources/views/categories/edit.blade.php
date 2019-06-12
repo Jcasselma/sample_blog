@@ -14,32 +14,21 @@
                 </div>
                 <br />
             @endif
-            <form method="post" action="{{ route('categories.update', $post->id) }}">
+            <form method="post" action="{{ route('categories.update', $category->id) }}">
                 @method('PATCH')
                 @csrf
                 <div class="form-group">
+                    <label for="category_name">Category Name:</label>
+                    <input type="text" class="form-control" name="category_name" value="{{ $category->category_name }}" />
 
-                    <label for="title">Title:</label>
-                    <input type="text" class="form-control" name="title" value={{ $post->title }} />
+                    <select class="form-control" id ="parent_id" name ="parent_id">
+                        @foreach($categories as $id => $categoryName)
+                            {{--NEED TO PASS PARENT ID NOT NAME--}}
+                            <option id ="{{ $id }}" {{ $category->parent_id == $id ? 'selected' : '' }} value="{{ $categoryName }}">{{ $categoryName }}</option>
+                        @endforeach
+                    </select>
                 </div>
 
-                <div class="form-group">
-                    <label for="author">Author:</label>
-                    <input type="text" class="form-control" name="author" value={{ $post->author }} />
-                </div>
-
-                <div class="form-group">
-                    <label for="category">Category:</label>
-                    <input type="text" class="form-control" name="category" value={{ $post->category }} />
-                </div>
-                <div class="form-group">
-                    <label for="short_description">Short Description:</label>
-                    <textarea id="shortdesc" class="form-control" name="short_description"> {{ $post->short_description }} </textarea>
-                </div>
-                <div class="form-group">
-                    <label for="long_description">Long Description:</label>
-                    <textarea id="longdesc" class="form-control" name="long_description"> {{ $post->long_description }} </textarea>
-                </div>
                 <button type="submit" class="btn btn-primary">Update</button>
             </form>
         </div>

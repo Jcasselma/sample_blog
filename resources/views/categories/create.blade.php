@@ -18,11 +18,13 @@
                     @csrf
                     <div class="form-group">
 
-                        <select class="browser-default custom-select" name="parent_id">
-                            <option selected>Select Node Type:</option>
-                            <option value="0">Root</option>
-                            <option value="1">sub1</option>
-                            <option value="2">sub2</option>
+                        <select class="browser-default custom-select" id ="parent_id" name ="parent_id">
+                            <option id ="0"  value="0">Root Category</option>
+
+                            @foreach($categories as $id => $category_name)
+                                {{ $category_name }}
+                                <option id ="{{ $id }}"  value="{{ $id }}">{{ $category_name }}</option>
+                            @endforeach
                         </select>
 
                         <label for="category_name">Category Name:</label>
