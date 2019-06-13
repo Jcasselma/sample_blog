@@ -23,4 +23,13 @@ Route::get('/admin', 'AdminController@admin')
     ->middleware('is_admin')
     ->name('admin');
 
-Route::resource('/posts', 'PostController');
+Route::group(['middleware' => ['auth']], function() {
+
+    Route::resource('/posts', 'PostController');
+
+    Route::resource('/categories', 'CategoryController');
+
+});
+
+Route::resource('/blog_list', 'BlogListController');
+

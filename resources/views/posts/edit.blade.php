@@ -20,25 +20,29 @@
                 <div class="form-group">
 
                     <label for="title">Title:</label>
-                    <input type="text" class="form-control" name="title" value={{ $post->title }} />
+                    <input type="text" class="form-control" name="title" value="{{ old('title', $post->title) }}" />
                 </div>
 
                 <div class="form-group">
                     <label for="author">Author:</label>
-                    <input type="text" class="form-control" name="author" value={{ $post->author }} />
+                    <input type="text" class="form-control" name="author" placeholder=" {{ $post->User->name }}" readonly/>
                 </div>
 
                 <div class="form-group">
                     <label for="category">Category:</label>
-                    <input type="text" class="form-control" name="category" value={{ $post->category }} />
+                    <select class="browser-default custom-select" id ="category_id" name ="category_id">
+                        @foreach($categories as $id => $category_name)
+                            <option id ="{{ $id }}" {{ old('category_id', $post->category_id) == $id ? 'selected' : '' }}  value="{{ $id }}">{{ $category_name }}</option>
+                        @endforeach
+                    </select>
                 </div>
                 <div class="form-group">
                     <label for="short_description">Short Description:</label>
-                    <textarea id="shortdesc" class="form-control" name="short_description"> {{ $post->short_description }} </textarea>
+                    <textarea id="shortdesc" class="form-control" name="short_description"> {{ old('short_description', $post->short_description) }} </textarea>
                 </div>
                 <div class="form-group">
                     <label for="long_description">Long Description:</label>
-                    <textarea id="longdesc" class="form-control" name="long_description"> {{ $post->long_description }} </textarea>
+                    <textarea id="longdesc" class="form-control" name="long_description"> {{ old('long_description', $post->long_description) }} </textarea>
                 </div>
                 <button type="submit" class="btn btn-primary">Update</button>
             </form>

@@ -2,8 +2,11 @@
 
 namespace App\Http\Controllers;
 
+use App\Category;
+use App\User;
 use Illuminate\Http\Request;
 use Illuminate\Foundation\Validation\ValidatesRequests;
+use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\Validator;
 use App\Post;
 
@@ -14,11 +17,21 @@ class PostController extends Controller
      *
      * @return \Illuminate\Http\Response
      */
-    public function index()
+    public function index(Request $request)
     {
-        $posts = POST::all();
 
-        return view('posts.index', compact('posts'));
+        if(!empty($request->get('category_id'))) {
+            $categoryId = $request->get('category_id');
+            $posts = Post::where('category_id', $categoryId)->get();
+
+        } else {
+            $categoryId = 0;
+            $posts = Post::all();
+        }
+
+        $categories = Category::pluck('category_name', 'id');
+
+        return view('posts.index', compact('posts', 'categories', 'categoryId'));
     }
 
     /**
@@ -28,7 +41,10 @@ class PostController extends Controller
      */
     public function create()
     {
-        return view('posts.create');
+        $categories = Category::pluck('category_name', 'id');
+        $authorName = Auth::user()->name;
+
+        return view('posts.create', compact('categories', 'authorName'));
     }
 
 
@@ -40,17 +56,19 @@ class PostController extends Controller
     public function store(Request $request)
     {
         $this->validate($request, [
-            'title'=>'required',
-            'category'=>'required',
-            'long_description'=>'required'
+            'title'=>'required|max:255',
+            'category_id'=>'required',
+            'long_description'=>'required|max:65535',
+            'short_description'=>'required|max:255'
         ]);
 
         $post = new Post([
             'title' => $request->get('title'),
-            'author' => $request->get('author'),
-            'category' => $request->get('category'),
+            'user_id' => Auth::id(),
+            'category_id' => $request->get('category_id'),
             'short_description' => $request->get('short_description'),
-            'long_description' => $request->get('long_description')
+            'long_description' => $request->get('long_description'),
+            'img_name' => rand(0, 4)
         ]);
 
         $post->save();
@@ -75,8 +93,10 @@ class PostController extends Controller
      */
     public function edit($id)
     {
-        $post = Post::query()->find($id);
-        return view('posts.edit', compact('post'));
+        $post = Post::query()->with('User')->find($id);
+        $categories = Category::pluck('category_name', 'id');
+
+        return view('posts.edit', compact('post', 'categories'));
     }
 
 
@@ -89,15 +109,15 @@ class PostController extends Controller
     public function update(Request $request, $id)
     {
         $this->validate($request, [
-            'title'=>'required',
-            'category'=>'required',
-            'long_description'=>'required'
+            'title'=>'required|max:255',
+            'category_id'=>'required',
+            'short_description'=>'required|max:255',
+            'long_description'=>'required|max:65535'
         ]);
 
         $post = Post::query()->find($id);
         $post->title =  $request->get('title');
-        $post->author = $request->get('author');
-        $post->category = $request->get('category');
+        $post->category_id = $request->get('category_id');
         $post->short_description = $request->get('short_description');
         $post->long_description = $request->get('long_description');
         $post->save();
