@@ -31,3 +31,6 @@ Route::group(['middleware' => ['auth']], function() {
 
 });
 
+Route::resource('/blog_list', 'BlogListController');
+Route::resource('/blog_detail', 'BlogDetailController');
+

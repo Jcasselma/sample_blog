@@ -73,11 +73,6 @@
                 @endif
             </div>
         </div>
-        <div class="col-sm-2">
-            <h1>Categories</h1>
-            @foreach($categories as $id => $category_name)
-                <a href="{{ route('posts.index')}}?category_id={{ $id }}" >{{ $category_name }}</a> <br />
-            @endforeach
-        </div>
+
     </div>
 @endsection
