@@ -56,9 +56,10 @@ class PostController extends Controller
     public function store(Request $request)
     {
         $this->validate($request, [
-            'title'=>'required',
+            'title'=>'required|max:255',
             'category_id'=>'required',
-            'long_description'=>'required'
+            'long_description'=>'required|max:65535',
+            'short_description'=>'required|max:255'
         ]);
 
         $post = new Post([
@@ -66,7 +67,8 @@ class PostController extends Controller
             'user_id' => Auth::id(),
             'category_id' => $request->get('category_id'),
             'short_description' => $request->get('short_description'),
-            'long_description' => $request->get('long_description')
+            'long_description' => $request->get('long_description'),
+            'img_name' => rand(0, 4)
         ]);
 
         $post->save();
@@ -91,8 +93,10 @@ class PostController extends Controller
      */
     public function edit($id)
     {
-        $post = Post::query()->find($id);
-        return view('posts.edit', compact('post'));
+        $post = Post::query()->with('User')->find($id);
+        $categories = Category::pluck('category_name', 'id');
+
+        return view('posts.edit', compact('post', 'categories'));
     }
 
 
@@ -105,14 +109,14 @@ class PostController extends Controller
     public function update(Request $request, $id)
     {
         $this->validate($request, [
-            'title'=>'required',
+            'title'=>'required|max:255',
             'category_id'=>'required',
-            'long_description'=>'required'
+            'short_description'=>'required|max:255',
+            'long_description'=>'required|max:65535'
         ]);
 
         $post = Post::query()->find($id);
         $post->title =  $request->get('title');
-        $post->user_id = $request->get('user_id');
         $post->category_id = $request->get('category_id');
         $post->short_description = $request->get('short_description');
         $post->long_description = $request->get('long_description');

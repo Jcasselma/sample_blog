@@ -12,7 +12,6 @@
                     <td>Author</td>
                     <td>Category</td>
                     <td>Short Desc.</td>
-                    <td>Long Desc.</td>
                     <td colspan = 2>Actions</td>
                 </tr>
                 </thead>
@@ -45,10 +44,10 @@
                         <td>{{$post->title}}</td>
                         <td>{{$post->user_id}}</td>
                         <td>{{$post->category_id}}</td>
-                        <td>{{$post->short_description}}</td>
-                        <td>{{$post->long_description}}</td>
+                        <td>{!! $post->short_description !!}</td>
                         <td>
                             <a href="{{ route('posts.edit',$post->id)}}" class="btn btn-primary">Edit</a>
+                            <a href="{{ route('blog_list.show',$post->id)}}" class="btn btn-primary">View</a>
                         </td>
                         <td>
                             <form action="{{ route('posts.destroy', $post->id)}}" method="post">

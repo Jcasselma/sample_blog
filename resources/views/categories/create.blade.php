@@ -17,7 +17,7 @@
                 <form method="post" action="{{ route('categories.store') }}">
                     @csrf
                     <div class="form-group">
-
+                        <label for="parent_id">Parent Category:</label>
                         <select class="browser-default custom-select" id ="parent_id" name ="parent_id">
                             <option id ="0"  value="0">Root Category</option>
 

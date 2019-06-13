@@ -1,0 +1,13 @@
+.thumbnail {
+    height: 60px;
+    width:  80px;
+}
+
+.article {
+    height: 180px;
+    width: 240px;
+}
+
+.main-body {
+    font-size: 125%;
+}

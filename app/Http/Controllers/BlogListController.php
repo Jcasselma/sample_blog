@@ -20,8 +20,16 @@ class BlogListController extends Controller
             $posts = Post::all();
         }
 
-        $categories = Category::pluck('category_name', 'id');
+        $categories = Category::pluck('category_name', 'id')->reverse();
 
         return view('blog.list', compact('posts', 'categories', 'categoryId'));
+    }
+
+    public function show($id)
+    {
+
+        $post = Post::where('id', $id)->first();
+        return view('blog.detail', compact('post', 'categories', 'categoryId'));
+
     }
 }

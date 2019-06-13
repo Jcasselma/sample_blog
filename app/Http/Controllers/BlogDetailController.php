@@ -8,4 +8,5 @@ use App\Post;
 class BlogDetailController extends Controller
 {
 
+
 }

@@ -27,13 +27,9 @@ class CategoryController extends Controller
     public function create()
     {
         $categories = Category::pluck('category_name', 'id');
-//        dd($categories);
 
         return view('categories.create', compact('categories'));
     }
-
-// YOU STOPPED HERE
-//YOU WERE TRYING TO APPEND A NODE TO A PARENT NODE
 
     /**
      * @param Request $request
@@ -43,11 +39,9 @@ class CategoryController extends Controller
     public function store(Request $request)
     {
         $this->validate($request, [
-            'category_name'=>'required',
+            'category_name'=>'required|max:255',
             'parent_id' => 'required'
         ]);
-
-        //insert validate call + save node
 
         $node = new Category([
             'category_name' => $request->post('category_name')
@@ -102,17 +96,11 @@ class CategoryController extends Controller
     public function update(Request $request, $id)
     {
         $this->validate($request, [
-            'category_name'=>'required',
+            'category_name'=>'required|max:255',
         ]);
 
         $category = Category::find($id);
         $category->category_name =  $request->get('category_name');
-
-        // Code for changing parent node
-//        $newParentId = $request->get('parent_id');
-//        dd($newParentId);
-//        $parentNode = Category::find($newParentId);
-//        $parentNode->appendNode($category);
 
         $category->save();
 
